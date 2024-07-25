@@ -1,0 +1,32 @@
+---
+
+name: "Trivy image scan"
+
+on:
+  workflow_dispatch
+
+env:
+  DOCKER_IMAGE: python:3.9.19-slim-bullseye
+
+jobs:
+  image-security-analysis:
+    name: Trivy image scanning
+    runs-on: ubuntu
+    steps:
+      - name: Docker setup
+        uses: docker/setup-buildx-action@v2
+
+      - name: Pull image
+        run: docker pull "${DOCKER_IMAGE}"
+
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with: 
+          image-ref: ${{ env.DOCKER_IMAGE }}
+          format: sarif
+          output: trivy-scan-result.sarif
+
+      - name: Upload Trivy scan result
+        uses: github/codeql-action/upload-serif@v2
+        with:
+          sarif_file: trivy-scan-result.sarif
