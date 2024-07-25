@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'test/trivy-workflow'
+      - 'master'
   
 
 env:
