@@ -15,7 +15,7 @@ env:
 jobs:
   image-security-analysis:
     name: Trivy image scanning
-    runs-on: ubuntu
+    runs-on: ubuntu-latest  # GH-hosted runner!
     steps:
       - name: Docker setup
         uses: docker/setup-buildx-action@v2
